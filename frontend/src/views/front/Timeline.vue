@@ -73,4 +73,11 @@ onMounted(async () => {
 .item-date { font-size: 13px; color: var(--text-muted); flex-shrink: 0; font-variant-numeric: tabular-nums; }
 .item-title { font-size: 15px; }
 .loading { text-align: center; color: var(--text-muted); padding: 80px 0; }
+
+@media (max-width: 768px) {
+  .timeline-page { padding: 90px 16px 80px; }
+  .page-title { font-size: 28px; }
+  .year-label { font-size: 22px; }
+  .item-title { font-size: 14px; }
+}
 </style>

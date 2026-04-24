@@ -3,12 +3,14 @@
     <div class="container nav-inner">
       <router-link to="/" class="logo">时分渺<span class="logo-ovo">OvO</span></router-link>
 
+      <!-- 桌面端导航 -->
       <ul class="nav-links">
         <li><router-link to="/">首页</router-link></li>
         <li><router-link to="/timeline">时间轴</router-link></li>
         <li><router-link to="/about">关于</router-link></li>
       </ul>
 
+      <!-- 桌面端右侧工具栏 -->
       <div class="nav-right">
         <div class="search-wrap">
           <input v-model="keyword" class="search-input" placeholder="搜索文章..." @keyup.enter="doSearch" />
@@ -23,7 +25,7 @@
             <div v-for="c in categories" :key="c.id" class="cat-item" :class="{ active: activeCategory === c.id }" @click="selectCat(c.id)">{{ c.name }}</div>
           </div>
         </div>
-        <button class="theme-btn" @click="themeStore.toggle()" :title="isDark ? '切换日间' : '切换夜间'">
+        <button class="theme-btn" @click="themeStore.toggle()">
           <span class="theme-icon">{{ isDark ? '◑' : '◐' }}</span>
         </button>
         <router-link to="/admin" class="admin-btn" title="管理后台">
@@ -31,6 +33,38 @@
             <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
           </svg>
         </router-link>
+      </div>
+
+      <!-- 移动端右侧 -->
+      <div class="mobile-right">
+        <button class="theme-btn" @click="themeStore.toggle()">
+          <span class="theme-icon">{{ isDark ? '◑' : '◐' }}</span>
+        </button>
+        <button class="hamburger" @click="mobileOpen = !mobileOpen" :class="{ open: mobileOpen }">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 移动端抽屉菜单 -->
+    <div class="mobile-menu" :class="{ open: mobileOpen }" @click.self="mobileOpen = false">
+      <div class="mobile-menu-inner">
+        <div class="mobile-search">
+          <input v-model="keyword" class="search-input" placeholder="搜索文章..." @keyup.enter="doSearchMobile" />
+        </div>
+        <ul class="mobile-nav-links">
+          <li><router-link to="/" @click="mobileOpen = false">首页</router-link></li>
+          <li><router-link to="/timeline" @click="mobileOpen = false">时间轴</router-link></li>
+          <li><router-link to="/about" @click="mobileOpen = false">关于</router-link></li>
+          <li><router-link to="/admin" @click="mobileOpen = false">管理后台</router-link></li>
+        </ul>
+        <div class="mobile-cats">
+          <p class="mobile-cat-title">分类筛选</p>
+          <div class="mobile-cat-list">
+            <span class="cat-tag" :class="{ active: !activeCategory }" @click="selectCatMobile(null)">全部</span>
+            <span v-for="c in categories" :key="c.id" class="cat-tag" :class="{ active: activeCategory === c.id }" @click="selectCatMobile(c.id)">{{ c.name }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -46,6 +80,7 @@ const themeStore = useThemeStore()
 const router = useRouter()
 const isDark = computed(() => themeStore.theme === 'dark')
 const scrolled = ref(false)
+const mobileOpen = ref(false)
 const onScroll = () => { scrolled.value = window.scrollY > 40 }
 
 const keyword = ref('')
@@ -53,6 +88,10 @@ function doSearch() {
   if (!keyword.value.trim()) return
   router.push({ path: '/', query: { keyword: keyword.value.trim() } })
   keyword.value = ''
+}
+function doSearchMobile() {
+  doSearch()
+  mobileOpen.value = false
 }
 
 const categories = ref([])
@@ -65,6 +104,11 @@ const activeCatName = computed(() => {
 function selectCat(id) {
   activeCategory.value = id
   catOpen.value = false
+  router.push({ path: '/', query: id ? { category_id: id } : {} })
+}
+function selectCatMobile(id) {
+  activeCategory.value = id
+  mobileOpen.value = false
   router.push({ path: '/', query: id ? { category_id: id } : {} })
 }
 function onClickOutside(e) {
@@ -89,6 +133,8 @@ onUnmounted(() => {
 .logo { font-size: 18px; font-weight: 700; color: var(--text-primary); transition: color 0.3s; flex-shrink: 0; margin-right: 32px; }
 .logo:hover { color: var(--accent); }
 .logo-ovo { color: var(--accent); }
+
+/* 桌面端 */
 .nav-links { display: flex; gap: 28px; list-style: none; position: absolute; left: 50%; transform: translateX(-50%); }
 .nav-links a { color: var(--text-secondary); font-size: 14px; transition: color 0.3s; position: relative; padding-bottom: 2px; white-space: nowrap; }
 .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: var(--accent); transform: scaleX(0); transition: transform 0.3s; }
@@ -114,4 +160,46 @@ onUnmounted(() => {
 .theme-icon { font-size: 18px; color: var(--accent); line-height: 1; }
 .admin-btn { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); transition: all 0.3s; flex-shrink: 0; }
 .admin-btn:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+
+/* 移动端隐藏 */
+.mobile-right { display: none; align-items: center; gap: 8px; margin-left: auto; }
+.hamburger { background: none; border: none; cursor: pointer; padding: 4px; display: flex; flex-direction: column; gap: 5px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: all 0.3s; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* 移动端抽屉 */
+.mobile-menu {
+  display: none;
+  position: fixed; top: 56px; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4); z-index: 99;
+}
+.mobile-menu.open { display: block; }
+.mobile-menu-inner {
+  background: var(--bg-card); padding: 20px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 20px;
+}
+.mobile-search .search-input { width: 100%; }
+.mobile-nav-links { list-style: none; display: flex; flex-direction: column; gap: 0; }
+.mobile-nav-links li a {
+  display: block; padding: 12px 0;
+  color: var(--text-secondary); font-size: 15px;
+  border-bottom: 1px solid var(--border); transition: color 0.2s;
+}
+.mobile-nav-links li:last-child a { border-bottom: none; }
+.mobile-nav-links li a:hover, .mobile-nav-links li a.router-link-active { color: var(--accent); }
+.mobile-cat-title { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+.mobile-cat-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.cat-tag { padding: 4px 12px; border-radius: 20px; font-size: 13px; border: 1px solid var(--border); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
+.cat-tag:hover, .cat-tag.active { border-color: var(--accent); color: var(--accent); background: rgba(79,195,247,0.08); }
+[data-theme="light"] .cat-tag.active { background: rgba(37,99,235,0.08); }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-right { display: none; }
+  .mobile-right { display: flex; }
+  .logo { margin-right: 0; }
+}
 </style>

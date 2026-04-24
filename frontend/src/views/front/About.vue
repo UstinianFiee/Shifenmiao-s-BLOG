@@ -53,6 +53,12 @@ onMounted(async () => {
 <style scoped>
 .about-page { padding: 120px 24px 80px; display: flex; justify-content: center; }
 .about-card { max-width: 480px; width: 100%; padding: 48px; text-align: center; }
+
+@media (max-width: 768px) {
+  .about-page { padding: 90px 16px 80px; }
+  .about-card { padding: 32px 20px; }
+  .stats { gap: 24px; }
+}
 .avatar-wrap { position: relative; width: 100px; height: 100px; margin: 0 auto 24px; }
 .avatar-ring {
   position: absolute; inset: -4px; border-radius: 50%;

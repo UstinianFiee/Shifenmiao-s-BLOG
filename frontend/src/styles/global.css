@@ -144,3 +144,11 @@ a:hover { color: var(--accent-2); }
 .vditor--dark .vditor-toolbar__item:hover svg { color: #4fc3f7 !important; }
 /* 日间模式编辑器 */
 [data-theme="light"] .vditor--classic .vditor-content { background: #fff !important; }
+
+/* ===== 移动端响应式 ===== */
+@media (max-width: 768px) {
+  .container { padding: 0 16px; }
+
+  /* 卡片 hover 动效在移动端关闭，避免点击残留 */
+  .card:hover { transform: none; }
+}

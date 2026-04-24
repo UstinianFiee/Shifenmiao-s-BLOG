@@ -106,6 +106,12 @@ onMounted(async () => {
 .toc-h3 { padding-left: 24px; }
 
 .md-content { flex: 1; min-width: 0; }
+
+@media (max-width: 768px) {
+  .article-page { padding: 90px 16px 80px; }
+  .article-body { flex-direction: column; gap: 20px; }
+  .toc { position: static; width: 100%; }
+}
 </style>
 
 <style>

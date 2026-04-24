@@ -79,4 +79,11 @@ watch(() => route.query, () => fetchArticles(1), { immediate: true })
 .loading, .empty { text-align: center; color: var(--text-muted); padding: 60px 0; }
 .pagination { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 48px; }
 .page-info { color: var(--text-secondary); font-size: 14px; }
+
+@media (max-width: 768px) {
+  .hero { min-height: 80vh; }
+  .hero-scroll-hint { display: none; }
+  .articles-section { padding: 40px 0 80px; }
+  .articles-grid { grid-template-columns: 1fr; gap: 16px; }
+}
 </style>
