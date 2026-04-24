@@ -23,6 +23,15 @@
           <span class="stat-label">标签</span>
         </div>
       </div>
+
+      <template v-if="analysis.content">
+        <div class="glow-divider"></div>
+        <div class="analysis-wrap">
+          <p class="analysis-title">✦ 近况</p>
+          <p class="analysis-text">{{ analysis.content }}</p>
+          <p v-if="analysis.updated_at" class="analysis-date">更新于 {{ analysis.updated_at }}</p>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -33,13 +42,15 @@ import api from '../../api'
 
 const profile = ref({ nickname: '', bio: '', avatar: '' })
 const stats = ref({ articles: 0, categories: 0, tags: 0 })
+const analysis = ref({ content: '', updated_at: '' })
 
 onMounted(async () => {
-  const [prof, arts, cats, tags] = await Promise.all([
+  const [prof, arts, cats, tags, ai] = await Promise.all([
     api.get('/account/profile'),
     api.get('/articles?per_page=1'),
     api.get('/categories'),
     api.get('/tags'),
+    api.get('/ai/public/analysis'),
   ])
   profile.value = prof.data
   stats.value = {
@@ -47,6 +58,7 @@ onMounted(async () => {
     categories: cats.data.length,
     tags: tags.data.length,
   }
+  analysis.value = ai.data
 })
 </script>
 
@@ -80,4 +92,9 @@ onMounted(async () => {
 .stat { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .stat-num { font-size: 28px; font-weight: 700; color: var(--accent); }
 .stat-label { font-size: 13px; color: var(--text-muted); }
+
+.analysis-wrap { text-align: left; }
+.analysis-title { font-size: 13px; color: var(--accent); font-weight: 600; margin-bottom: 10px; letter-spacing: 0.5px; }
+.analysis-text { font-size: 14px; color: var(--text-secondary); line-height: 1.8; white-space: pre-wrap; }
+.analysis-date { font-size: 11px; color: var(--text-muted); margin-top: 8px; text-align: right; }
 </style>

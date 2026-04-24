@@ -18,6 +18,8 @@ def create_app():
     from app.routes.upload import upload_bp
     from app.routes.site import site_bp
     from app.routes.account import account_bp
+    from app.routes.media import media_bp
+    from app.routes.ai import ai_bp
 
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(articles_bp, url_prefix="/api/articles")
@@ -26,6 +28,8 @@ def create_app():
     app.register_blueprint(upload_bp, url_prefix="/api/upload")
     app.register_blueprint(site_bp, url_prefix="/api/site")
     app.register_blueprint(account_bp, url_prefix="/api/account")
+    app.register_blueprint(media_bp, url_prefix="/api/media")
+    app.register_blueprint(ai_bp, url_prefix="/api/ai")
 
     with app.app_context():
         db.create_all()

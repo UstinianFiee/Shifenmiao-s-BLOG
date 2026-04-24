@@ -100,9 +100,15 @@ onMounted(async () => {
       url: '/api/upload',
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       fieldName: 'file',
-      success: (_, msg) => {
-        const url = JSON.parse(msg).url
-        return url
+      accept: 'image/*, video/*',
+      success: (editor, msg) => {
+        const data = JSON.parse(msg)
+        if (data.type === 'video') {
+          // 视频插入 HTML
+          vd.insertValue(`\n<video src="${data.url}" controls style="max-width:100%"></video>\n`)
+          return ''
+        }
+        return data.url
       },
     },
     after: async () => {
@@ -214,4 +220,11 @@ async function onDrop(e) {
 .tag-check input { accent-color: var(--accent); cursor: pointer; }
 
 .save-msg { margin-top: 16px; color: var(--accent); font-size: 14px; text-align: center; }
+
+@media (max-width: 768px) {
+  .edit-layout { flex-direction: column; }
+  .edit-sidebar { width: 100%; }
+  .page-header { flex-wrap: wrap; gap: 10px; }
+  .header-actions { width: 100%; justify-content: flex-end; }
+}
 </style>

@@ -37,7 +37,7 @@ import { useRoute } from 'vue-router'
 import api from '../../api'
 import { marked } from 'marked'
 import hljs from 'highlight.js'
-import 'highlight.js/styles/github-dark.css'
+import 'highlight.js/styles/atom-one-dark.css'
 
 marked.setOptions({
   highlight: (code, lang) => {
@@ -45,6 +45,8 @@ marked.setOptions({
     return hljs.highlightAuto(code).value
   },
   breaks: true,
+  mangle: false,
+  headerIds: false,
 })
 
 const route = useRoute()
@@ -120,11 +122,26 @@ onMounted(async () => {
 .md-content h2 { border-left: 3px solid var(--accent); padding-left: 12px; }
 .md-content p { color: var(--text-secondary); margin-bottom: 16px; }
 .md-content code { background: rgba(79,195,247,0.1); color: var(--accent); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
-.md-content pre { background: #0d1117; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; overflow-x: auto; margin-bottom: 20px; }
-.md-content pre code { background: none; color: inherit; padding: 0; }
+.md-content pre { background: #1a1d2e !important; border: 1px solid rgba(100,160,255,0.2); border-radius: var(--radius); padding: 16px; overflow-x: auto; margin-bottom: 20px; }
+.md-content pre code { background: none !important; color: #abb2bf !important; padding: 0; font-size: 0.88em; line-height: 1.7; }
+/* hljs token 颜色强制覆盖，确保深色背景下可见 */
+.md-content pre .hljs-keyword,
+.md-content pre .hljs-selector-tag { color: #c678dd !important; }
+.md-content pre .hljs-string,
+.md-content pre .hljs-attr { color: #98c379 !important; }
+.md-content pre .hljs-number,
+.md-content pre .hljs-literal { color: #d19a66 !important; }
+.md-content pre .hljs-comment { color: #5c6370 !important; font-style: italic; }
+.md-content pre .hljs-function,
+.md-content pre .hljs-title { color: #61afef !important; }
+.md-content pre .hljs-variable,
+.md-content pre .hljs-name { color: #e06c75 !important; }
+.md-content pre .hljs-built_in { color: #56b6c2 !important; }
+.md-content pre .hljs-type { color: #e5c07b !important; }
 .md-content blockquote { border-left: 3px solid var(--accent-2); padding: 8px 16px; background: rgba(124,77,255,0.08); margin: 16px 0; color: var(--text-secondary); }
 .md-content a { color: var(--accent); }
 .md-content img { max-width: 100%; border-radius: var(--radius); }
+.md-content video { max-width: 100%; border-radius: var(--radius); margin: 12px 0; }
 .md-content table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
 .md-content th,.md-content td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
 .md-content th { background: var(--bg-card); color: var(--accent); }

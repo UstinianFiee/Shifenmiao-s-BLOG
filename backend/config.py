@@ -19,7 +19,7 @@ class Config:
     JWT_ACCESS_TOKEN_EXPIRES = 86400  # 1 day
 
     UPLOAD_FOLDER = "/app/uploads"
-    MAX_CONTENT_LENGTH = 10 * 1024 * 1024  # 10MB
+    MAX_CONTENT_LENGTH = 200 * 1024 * 1024  # 200MB（支持视频）
 
     BLOG_START_DATE = os.getenv("BLOG_START_DATE", "2025-01-01")
     ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")

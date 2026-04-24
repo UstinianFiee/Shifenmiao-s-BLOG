@@ -84,8 +84,10 @@
 import { ref, onMounted } from 'vue'
 import api from '../../api'
 import { useAuthStore } from '../../stores/auth'
+import { useToast } from '../../stores/toast'
 
 const auth = useAuthStore()
+const { show: toast } = useToast()
 
 // profile
 const profile = ref({ nickname: '', bio: '', avatar: '' })
@@ -99,8 +101,7 @@ async function loadProfile() {
 
 async function saveProfile() {
   await api.put('/account/profile', profile.value)
-  profileMsg.value = '保存成功'
-  setTimeout(() => profileMsg.value = '', 2000)
+  toast('保存成功')
 }
 
 async function uploadAvatar(e) {
@@ -124,13 +125,12 @@ async function saveUsername() {
     const res = await api.put('/account/username', usernameForm.value)
     auth.username = res.data.username
     localStorage.setItem('username', res.data.username)
-    usernameMsg.value = '修改成功'
+    toast('用户名修改成功')
     usernameForm.value.username = ''
   } catch (e) {
     usernameErr.value = true
-    usernameMsg.value = e.response?.data?.msg || '修改失败'
+    toast(e.response?.data?.msg || '修改失败', 'error')
   }
-  setTimeout(() => usernameMsg.value = '', 3000)
 }
 
 // password
@@ -144,13 +144,12 @@ async function savePassword() {
   pwdErr.value = false
   try {
     await api.put('/account/password', pwdForm.value)
-    pwdMsg.value = '密码修改成功'
+    toast('密码修改成功')
     pwdForm.value = { old_password: '', new_password: '' }
   } catch (e) {
     pwdErr.value = true
-    pwdMsg.value = e.response?.data?.msg || '修改失败'
+    toast(e.response?.data?.msg || '修改失败', 'error')
   }
-  setTimeout(() => pwdMsg.value = '', 3000)
 }
 
 onMounted(loadProfile)
@@ -172,6 +171,11 @@ onMounted(loadProfile)
 .profile-fields { flex: 1; display: flex; flex-direction: column; gap: 16px; }
 .pwd-fields { display: flex; gap: 20px; flex-wrap: wrap; }
 .pwd-fields .field-group { flex: 1; min-width: 200px; }
+
+@media (max-width: 768px) {
+  .profile-body { flex-direction: column; }
+  .section-header { flex-wrap: wrap; gap: 10px; }
+}
 
 .field-group { display: flex; flex-direction: column; gap: 6px; }
 .field-group label { font-size: 13px; color: var(--text-secondary); }

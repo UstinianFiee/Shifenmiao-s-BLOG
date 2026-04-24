@@ -78,8 +78,8 @@ onMounted(() => fetch())
 .admin-articles { display: flex; flex-direction: column; gap: 16px; }
 .toolbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; }
 .page-title { font-size: 18px; font-weight: 600; }
-.table-wrap { overflow-x: auto; }
-.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 600px; }
 .table th { padding: 12px 16px; text-align: left; color: var(--accent); font-weight: 500; border-bottom: 1px solid var(--border); }
 .table td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
 .table tr:last-child td { border-bottom: none; }

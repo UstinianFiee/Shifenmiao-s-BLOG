@@ -1,6 +1,29 @@
 version: '3.8'
 
 services:
+  # ============================================================
+  # MySQL 5.7 本地数据库（当前使用外部远程数据库，此服务已注释）
+  # 如需切换为本地数据库，取消注释此 service，
+  # 并将 backend/.env 中的 DB_HOST 改为 db，DB_PORT 改为 3306
+  # ============================================================
+  # db:
+  #   image: mysql:5.7
+  #   container_name: blog-db
+  #   restart: unless-stopped
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: tanrui2004        # 数据库 root 密码
+  #     MYSQL_DATABASE: blog                   # 自动创建的数据库名
+  #     MYSQL_CHARSET: utf8mb4
+  #   ports:
+  #     - "3306:3306"                          # 宿主机端口:容器端口
+  #   volumes:
+  #     - db_data:/var/lib/mysql               # 数据持久化
+  #   networks:
+  #     - blog-net
+  #   command: >
+  #     --character-set-server=utf8mb4
+  #     --collation-server=utf8mb4_unicode_ci
+
   backend:
     build: ./backend
     container_name: blog-backend
@@ -8,9 +31,11 @@ services:
     ports:
       - "5001:5001"
     volumes:
-      - ./uploads:/app/uploads
+      - uploads:/app/uploads
     env_file:
       - ./backend/.env
+    # depends_on:           # 使用本地 db 时取消注释
+    #   - db
     networks:
       - blog-net
 
@@ -31,3 +56,4 @@ networks:
 
 volumes:
   uploads:
+  # db_data:              # 使用本地 db 时取消注释
