@@ -67,8 +67,10 @@ def get_article(aid):
     a = Article.query.get_or_404(aid)
     if a.status != "published":
         return jsonify({"msg": "not found"}), 404
-    a.views += 1
+    # 原子操作避免并发竞态
+    Article.query.filter_by(id=aid).update({Article.views: Article.views + 1})
     db.session.commit()
+    a = Article.query.get(aid)
     return jsonify(a.to_dict(full=True))
 
 @articles_bp.post("/admin")

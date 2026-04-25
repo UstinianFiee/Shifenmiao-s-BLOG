@@ -1,14 +1,14 @@
 import jwt
 import time
 from functools import wraps
-from flask import request, jsonify, current_app
+from flask import request, jsonify, current_app, g
 
 
 def create_token(user_id: int) -> str:
     payload = {
         "sub": str(user_id),
         "iat": int(time.time()),
-        "exp": int(time.time()) + 86400,  # 1 day
+        "exp": int(time.time()) + 86400,
     }
     return jwt.encode(payload, current_app.config["JWT_SECRET_KEY"], algorithm="HS256")
 
@@ -30,10 +30,10 @@ def jwt_required(f):
             return jsonify({"msg": "Token expired"}), 401
         except jwt.InvalidTokenError:
             return jsonify({"msg": "Invalid token"}), 401
-        request.current_user_id = payload["sub"]
+        g.current_user_id = payload["sub"]
         return f(*args, **kwargs)
     return decorated
 
 
 def get_jwt_identity():
-    return request.current_user_id
+    return g.get("current_user_id")

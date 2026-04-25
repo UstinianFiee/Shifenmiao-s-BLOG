@@ -18,7 +18,7 @@ class Config:
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "dev-secret")
     JWT_ACCESS_TOKEN_EXPIRES = 86400  # 1 day
 
-    UPLOAD_FOLDER = "/app/uploads"
+    UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads"))
     MAX_CONTENT_LENGTH = 200 * 1024 * 1024  # 200MB（支持视频）
 
     BLOG_START_DATE = os.getenv("BLOG_START_DATE", "2025-01-01")

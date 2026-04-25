@@ -1,5 +1,5 @@
 <template>
-  <div class="front-layout" @contextmenu.prevent @selectstart="onSelectStart">
+  <div class="front-layout">
     <canvas id="particles-canvas" ref="canvas"></canvas>
     <NavBar />
     <main class="main-content">
@@ -20,13 +20,6 @@ import MusicPlayer from '../components/MusicPlayer.vue'
 const themeStore = useThemeStore()
 const canvas = ref(null)
 let animId = null
-
-// 允许输入框选中，禁止其他区域选中文字
-function onSelectStart(e) {
-  const tag = e.target.tagName.toLowerCase()
-  if (['input', 'textarea'].includes(tag)) return true
-  e.preventDefault()
-}
 
 onMounted(() => {
   const c = canvas.value

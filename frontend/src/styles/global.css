@@ -48,10 +48,6 @@
   --footer-bg: rgba(228, 238, 255, 0.98);
 }
 
-[data-theme="light"] select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-}
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -61,29 +57,10 @@ body {
   line-height: 1.7;
   min-height: 100vh;
   transition: background 0.3s, color 0.3s;
-  /* 消除移动端点击蓝色底印 */
-  -webkit-tap-highlight-color: transparent;
 }
 
 a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
 a:hover { color: var(--accent-2); }
-
-/* 消除所有可点击元素的移动端点击高亮 */
-button, a, input, select, textarea, label {
-  -webkit-tap-highlight-color: transparent;
-  outline: none;
-}
-
-/* 全局 select 统一主题风格 */
-select {
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238892b0' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 36px !important;
-  cursor: pointer;
-}
 
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
@@ -184,3 +161,10 @@ select {
 /* 文章内容容器防溢出（代码块等） */
 .md-content { max-width: 100%; overflow: hidden; }
 .md-content pre { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; box-sizing: border-box; }
+
+/* Vditor 编辑器移动端防溢出 */
+@media (max-width: 768px) {
+  .vditor { max-width: 100%; overflow: hidden; }
+  .vditor-ir pre, .vditor-wysiwyg pre, .vditor-sv pre { overflow-x: auto; max-width: 100%; }
+  .vditor-reset pre { overflow-x: auto; }
+}

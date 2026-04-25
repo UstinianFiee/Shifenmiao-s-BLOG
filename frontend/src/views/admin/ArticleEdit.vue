@@ -161,19 +161,27 @@ async function save(status) {
 async function uploadCover(e) {
   const file = e.target.files[0]
   if (!file) return
-  const fd = new FormData()
-  fd.append('file', file)
-  const res = await api.post('/upload', fd)
-  form.value.cover = res.data.url
+  try {
+    const fd = new FormData()
+    fd.append('file', file)
+    const res = await api.post('/upload', fd)
+    form.value.cover = res.data.url
+  } catch (err) {
+    msg.value = err.response?.data?.msg || '封面上传失败'
+  }
 }
 
 async function onDrop(e) {
   const file = e.dataTransfer.files[0]
   if (!file || !file.type.startsWith('image/')) return
-  const fd = new FormData()
-  fd.append('file', file)
-  const res = await api.post('/upload', fd)
-  form.value.cover = res.data.url
+  try {
+    const fd = new FormData()
+    fd.append('file', file)
+    const res = await api.post('/upload', fd)
+    form.value.cover = res.data.url
+  } catch (err) {
+    msg.value = err.response?.data?.msg || '封面上传失败'
+  }
 }
 </script>
 
@@ -232,11 +240,17 @@ async function onDrop(e) {
 .save-msg { margin-top: 16px; color: var(--accent); font-size: 14px; text-align: center; }
 
 @media (max-width: 768px) {
-  .article-edit { max-width: 100%; }
+  .article-edit { max-width: 100%; overflow: hidden; }
   .edit-layout { flex-direction: column; }
   .edit-sidebar { width: 100%; }
   .page-header { flex-wrap: wrap; gap: 10px; }
   .header-actions { width: 100%; justify-content: flex-end; }
-  .editor-wrap { overflow: hidden; }
+  .editor-wrap { overflow: hidden; max-width: 100%; }
+  /* Vditor 内部代码块横向滚动，不撑破布局 */
+  .editor-wrap :deep(pre),
+  .editor-wrap :deep(code) { max-width: 100%; overflow-x: auto; white-space: pre; word-break: normal; }
+  .editor-wrap :deep(.vditor-ir),
+  .editor-wrap :deep(.vditor-wysiwyg),
+  .editor-wrap :deep(.vditor-sv) { max-width: 100%; overflow-x: hidden; }
 }
 </style>
