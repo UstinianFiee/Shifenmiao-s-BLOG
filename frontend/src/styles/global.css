@@ -147,8 +147,13 @@ a:hover { color: var(--accent-2); }
 
 /* ===== 移动端响应式 ===== */
 @media (max-width: 768px) {
-  .container { padding: 0 16px; }
-
-  /* 卡片 hover 动效在移动端关闭，避免点击残留 */
+  .container { padding: 0 12px; }
   .card:hover { transform: none; }
+
+  /* 防止内容横向溢出 */
+  img, video, table, pre { max-width: 100%; }
+  pre { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* 表格横向滚动 */
+  .md-content table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }

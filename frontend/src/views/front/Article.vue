@@ -110,9 +110,11 @@ onMounted(async () => {
 .md-content { flex: 1; min-width: 0; }
 
 @media (max-width: 768px) {
-  .article-page { padding: 90px 16px 80px; }
-  .article-body { flex-direction: column; gap: 20px; }
+  .article-page { padding: 80px 12px 80px; }
+  .article-body { flex-direction: column; gap: 16px; }
   .toc { position: static; width: 100%; }
+  .title { font-size: 22px; }
+  .meta { flex-wrap: wrap; gap: 8px; }
 }
 </style>
 
@@ -142,6 +144,14 @@ onMounted(async () => {
 .md-content a { color: var(--accent); }
 .md-content img { max-width: 100%; border-radius: var(--radius); }
 .md-content video { max-width: 100%; border-radius: var(--radius); margin: 12px 0; }
+
+@media (max-width: 768px) {
+  .md-content h1 { font-size: 20px; }
+  .md-content h2 { font-size: 18px; }
+  .md-content h3 { font-size: 16px; }
+  .md-content pre { font-size: 12px; padding: 12px; }
+  .md-content p, .md-content li { font-size: 15px; }
+}
 .md-content table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
 .md-content th,.md-content td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
 .md-content th { background: var(--bg-card); color: var(--accent); }

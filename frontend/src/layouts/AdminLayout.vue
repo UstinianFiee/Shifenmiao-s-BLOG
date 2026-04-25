@@ -36,6 +36,9 @@
           <router-link to="/admin/media" class="nav-item" @click="closeMobile">
             <span class="nav-icon">🖼️</span><span class="nav-text">媒体库</span>
           </router-link>
+          <router-link to="/admin/playlist" class="nav-item" @click="closeMobile">
+            <span class="nav-icon">🎵</span><span class="nav-text">播放列表</span>
+          </router-link>
           <router-link to="/admin/ai" class="nav-item" @click="closeMobile">
             <span class="nav-icon">🤖</span><span class="nav-text">AI 助手</span>
           </router-link>

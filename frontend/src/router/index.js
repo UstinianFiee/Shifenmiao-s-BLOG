@@ -29,6 +29,7 @@ const routes = [
       { path: 'categories', name: 'AdminCategories', component: () => import('../views/admin/Categories.vue') },
       { path: 'tags', name: 'AdminTags', component: () => import('../views/admin/Tags.vue') },
       { path: 'media', name: 'AdminMedia', component: () => import('../views/admin/Media.vue') },
+      { path: 'playlist', name: 'AdminPlaylist', component: () => import('../views/admin/Playlist.vue') },
       { path: 'ai', name: 'AdminAi', component: () => import('../views/admin/AiAnalysis.vue') },
       { path: 'account', name: 'AdminAccount', component: () => import('../views/admin/Account.vue') },
     ]

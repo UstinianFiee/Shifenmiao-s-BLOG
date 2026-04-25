@@ -20,6 +20,7 @@ def create_app():
     from app.routes.account import account_bp
     from app.routes.media import media_bp
     from app.routes.ai import ai_bp
+    from app.routes.playlist import playlist_bp
 
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(articles_bp, url_prefix="/api/articles")
@@ -30,6 +31,7 @@ def create_app():
     app.register_blueprint(account_bp, url_prefix="/api/account")
     app.register_blueprint(media_bp, url_prefix="/api/media")
     app.register_blueprint(ai_bp, url_prefix="/api/ai")
+    app.register_blueprint(playlist_bp, url_prefix="/api/playlist")
 
     with app.app_context():
         db.create_all()

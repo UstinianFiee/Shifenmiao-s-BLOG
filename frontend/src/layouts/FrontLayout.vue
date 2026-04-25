@@ -6,6 +6,7 @@
       <router-view />
     </main>
     <FooterBar />
+    <MusicPlayer />
   </div>
 </template>
 
@@ -14,6 +15,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../stores/theme'
 import NavBar from '../components/front/NavBar.vue'
 import FooterBar from '../components/front/FooterBar.vue'
+import MusicPlayer from '../components/MusicPlayer.vue'
 
 const themeStore = useThemeStore()
 const canvas = ref(null)

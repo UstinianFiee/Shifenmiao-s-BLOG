@@ -8,7 +8,8 @@ media_bp = Blueprint("media", __name__)
 
 ALLOWED_IMAGE = {"png", "jpg", "jpeg", "gif", "webp", "svg"}
 ALLOWED_VIDEO = {"mp4", "webm", "ogg", "mov"}
-ALLOWED = ALLOWED_IMAGE | ALLOWED_VIDEO
+ALLOWED_AUDIO = {"mp3", "wav", "ogg", "flac", "aac", "m4a"}
+ALLOWED = ALLOWED_IMAGE | ALLOWED_VIDEO | ALLOWED_AUDIO
 
 def get_ext(filename):
     return filename.rsplit(".", 1)[-1].lower() if "." in filename else ""
@@ -48,7 +49,7 @@ def upload_media():
     folder = current_app.config["UPLOAD_FOLDER"]
     os.makedirs(folder, exist_ok=True)
     f.save(os.path.join(folder, name))
-    file_type = "video" if ext in ALLOWED_VIDEO else "image"
+    file_type = "video" if ext in ALLOWED_VIDEO else ("audio" if ext in ALLOWED_AUDIO else "image")
     m = Media(
         name=f.filename,
         url=f"/uploads/{name}",
