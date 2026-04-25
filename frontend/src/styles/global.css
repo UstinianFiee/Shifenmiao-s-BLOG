@@ -157,3 +157,7 @@ a:hover { color: var(--accent-2); }
   /* 表格横向滚动 */
   .md-content table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
+
+/* 文章内容容器防溢出（代码块等） */
+.md-content { max-width: 100%; overflow: hidden; }
+.md-content pre { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; box-sizing: border-box; }

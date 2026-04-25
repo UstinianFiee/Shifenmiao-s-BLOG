@@ -15,8 +15,7 @@
         <button class="theme-btn" @click="themeStore.toggle()">{{ themeStore.theme === 'dark' ? '☀️' : '🌙' }}</button>
         <span class="admin-user">{{ auth.username }}</span>
         <button class="btn btn-danger" style="padding:4px 10px;font-size:12px" @click="logout">退出</button>
-      </div>
-    </header>
+      </div>    </header>
 
     <div class="admin-body">
       <!-- 移动端遮罩 -->
@@ -153,7 +152,8 @@ function logout() { auth.logout(); router.push('/admin/login') }
 /* 移动端 */
 @media (max-width: 768px) {
   .admin-user { display: none; }
-  .front-link { display: none; }
+  /* 前台链接手机端只显示图标 */
+  .front-link { padding: 4px 8px; font-size: 16px; border: none; }
 
   /* 侧边栏默认隐藏，滑入显示 */
   .sidebar { transform: translateX(-100%); width: 200px !important; }

@@ -222,9 +222,11 @@ async function onDrop(e) {
 .save-msg { margin-top: 16px; color: var(--accent); font-size: 14px; text-align: center; }
 
 @media (max-width: 768px) {
+  .article-edit { max-width: 100%; }
   .edit-layout { flex-direction: column; }
   .edit-sidebar { width: 100%; }
   .page-header { flex-wrap: wrap; gap: 10px; }
   .header-actions { width: 100%; justify-content: flex-end; }
+  .editor-wrap { overflow: hidden; }
 }
 </style>
