@@ -168,3 +168,43 @@ a:hover { color: var(--accent-2); }
   .vditor-ir pre, .vditor-wysiwyg pre, .vditor-sv pre { overflow-x: auto; max-width: 100%; }
   .vditor-reset pre { overflow-x: auto; }
 }
+
+/* ===== 全局代码块强制换行（手机端完全适配）===== */
+/* 前台文章 */
+.md-content pre,
+.md-content pre code,
+.md-content code {
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
+  overflow-wrap: break-word !important;
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+
+/* Vditor 编辑器内部所有代码块 */
+.vditor pre,
+.vditor pre code,
+.vditor code,
+.vditor-reset pre,
+.vditor-reset pre code,
+.vditor-reset code,
+.vditor-ir pre,
+.vditor-ir code,
+.vditor-wysiwyg pre,
+.vditor-wysiwyg code,
+.vditor-sv pre,
+.vditor-sv code {
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
+  overflow-wrap: break-word !important;
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+
+/* 防止任何容器横向溢出 */
+@media (max-width: 768px) {
+  * { max-width: 100%; box-sizing: border-box; }
+  pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+  .vditor { overflow: hidden !important; }
+  .vditor-content { overflow: hidden !important; }
+}
