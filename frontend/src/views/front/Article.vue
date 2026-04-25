@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import api from '../../api'
 import { marked } from 'marked'
@@ -79,7 +79,26 @@ onMounted(async () => {
   }
   rendered.value = marked(res.data.content, { renderer })
   toc.value = buildToc(rendered.value)
+  await nextTick()
+  addWatermark()
 })
+
+function addWatermark() {
+  const el = document.querySelector('.md-content')
+  if (!el) return
+  const text = 'shifen.miao'
+  const canvas = document.createElement('canvas')
+  canvas.width = 240
+  canvas.height = 120
+  const ctx = canvas.getContext('2d')
+  ctx.rotate(-20 * Math.PI / 180)
+  ctx.font = '14px sans-serif'
+  ctx.fillStyle = 'rgba(128,128,128,0.06)'
+  ctx.fillText(text, 10, 80)
+  const url = canvas.toDataURL()
+  el.style.backgroundImage = `url(${url})`
+  el.style.backgroundRepeat = 'repeat'
+}
 </script>
 
 <style scoped>

@@ -55,6 +55,13 @@ def admin_list():
         "pages": pagination.pages,
     })
 
+@articles_bp.get("/admin/detail/<int:aid>")
+@jwt_required
+def admin_get_article(aid):
+    """获取单篇文章完整内容（含草稿）"""
+    a = Article.query.get_or_404(aid)
+    return jsonify(a.to_dict(full=True))
+
 @articles_bp.get("/<int:aid>")
 def get_article(aid):
     a = Article.query.get_or_404(aid)

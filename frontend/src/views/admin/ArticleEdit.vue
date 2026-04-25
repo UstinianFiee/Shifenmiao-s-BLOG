@@ -21,7 +21,7 @@
       <aside class="edit-sidebar">
         <div class="sidebar-section card">
           <p class="section-title">封面图</p>
-          <input v-model="form.cover" class="field-input" placeholder="图片URL" />
+          <ComboBox v-model="form.cover" :options="mediaOptions" placeholder="选择媒体库图片或输入URL" />
           <div class="upload-area" @click="$refs.coverInput.click()" @dragover.prevent @drop.prevent="onDrop">
             <input ref="coverInput" type="file" accept="image/*" @change="uploadCover" class="hidden-input" />
             <div v-if="form.cover" class="cover-preview-wrap">
@@ -30,7 +30,7 @@
             </div>
             <div v-else class="upload-placeholder">
               <span class="upload-icon">&#128247;</span>
-              <span class="upload-text">点击或拖拽上传封面</span>
+              <span class="upload-text">点击或拖拽上传新图片</span>
               <span class="upload-hint">支持 JPG / PNG / WebP</span>
             </div>
           </div>
@@ -61,11 +61,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '../../api'
 import Vditor from 'vditor'
 import 'vditor/dist/index.css'
+import ComboBox from '../../components/ComboBox.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -79,12 +80,19 @@ const form = ref({
 
 const categories = ref([])
 const tags = ref([])
+const mediaImages = ref([])
+const mediaOptions = computed(() => mediaImages.value.map(m => m.url))
 let vd = null
 
 onMounted(async () => {
-  const [cats, tgs] = await Promise.all([api.get('/categories'), api.get('/tags')])
+  const [cats, tgs, media] = await Promise.all([
+    api.get('/categories'),
+    api.get('/tags'),
+    api.get('/media?per_page=100&type=image'),
+  ])
   categories.value = cats.data
   tags.value = tgs.data
+  mediaImages.value = media.data.items
 
   const isDark = document.documentElement.getAttribute('data-theme') !== 'light'
   vd = new Vditor('vditor', {
@@ -113,17 +121,19 @@ onMounted(async () => {
     },
     after: async () => {
       if (isEdit) {
-        const res = await api.get(`/articles/admin/all?page=1&per_page=999`)
-        // fetch single article via public endpoint (full content)
-        const art = await api.get(`/articles/${route.params.id}`)
-        // if draft, use admin endpoint workaround - just load content
-        const a = art.data
-        form.value = {
-          title: a.title, summary: a.summary, cover: a.cover,
-          status: a.status, category_id: a.category?.id || null,
-          tag_ids: a.tags.map(t => t.id), content: a.content,
+        try {
+          // 用管理员接口获取文章（支持草稿）
+          const res = await api.get(`/articles/admin/detail/${route.params.id}`)
+          const a = res.data
+          form.value = {
+            title: a.title, summary: a.summary, cover: a.cover,
+            status: a.status, category_id: a.category?.id || null,
+            tag_ids: a.tags.map(t => t.id), content: a.content,
+          }
+          vd.setValue(a.content || '')
+        } catch {
+          msg.value = '加载文章失败'
         }
-        vd.setValue(a.content)
       }
     },
   })
