@@ -151,7 +151,7 @@ onMounted(load)
 .toolbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; }
 .page-title { font-size: 18px; font-weight: 600; }
 .list-wrap { overflow: hidden; }
-.pl-row { display: flex; align-items: center; gap: 14px; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+.pl-row { display: flex; align-items: center; gap: 14px; padding: 14px 20px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
 .pl-row:last-child { border-bottom: none; }
 .pl-cover { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; font-size: 18px; color: #fff; }
 .pl-cover img { width: 100%; height: 100%; object-fit: cover; }
@@ -161,6 +161,11 @@ onMounted(load)
 .pl-url { font-size: 11px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pl-actions { display: flex; gap: 8px; flex-shrink: 0; }
 .empty { padding: 40px; text-align: center; color: var(--text-muted); }
+
+@media (max-width: 768px) {
+  .pl-row { align-items: flex-start; }
+  .pl-actions { width: 100%; padding-left: 58px; }
+}
 
 /* 弹窗 */
 .modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 400; display: flex; align-items: center; justify-content: center; padding: 20px; }

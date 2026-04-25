@@ -92,4 +92,20 @@ onMounted(() => fetch())
 .empty { text-align: center; color: var(--text-muted); padding: 40px; }
 .pagination { display: flex; align-items: center; gap: 16px; margin-top: 24px; }
 .page-info { color: var(--text-secondary); font-size: 14px; }
+
+/* 手机端改为卡片列表 */
+@media (max-width: 768px) {
+  .table-wrap { overflow-x: visible; }
+  .table, .table thead, .table tbody, .table tr, .table th, .table td { display: block; }
+  .table thead { display: none; }
+  .table tr {
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .table tr:last-child { border-bottom: none; }
+  .table tr:hover td { background: none; }
+  .table td { padding: 0; border: none; }
+  .title-cell { font-size: 15px; font-weight: 500; max-width: 100%; white-space: normal; }
+  .actions { flex-wrap: wrap; gap: 6px; }
+}
 </style>
